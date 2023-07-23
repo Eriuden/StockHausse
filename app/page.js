@@ -4,6 +4,17 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
   const [product, setProduct] = useState({})
+  const [products, setProducts] = useState({})
+  const [signal, setSignal] = useState("")
+
+  useEffect(()=> {
+    const fetchProducts = async ()=> {
+      const response = await fetch("/api/product")
+      let resjson = await response.json()
+      setProducts(resjson.products)
+    }
+    fetchProducts()
+  },[])
 
   const addProduct = async(e)=>{
     e.preventDefault()
@@ -19,6 +30,8 @@ export default function Home() {
 
       if(response.ok) {
         console.log("ca marche")
+        setSignal("Produit ajouté avec succés")
+        setProduct({})
       } else {
         console.log("ca marche pas")
       }
@@ -44,27 +57,36 @@ export default function Home() {
       </div>
 
       <div className="container">
+        <h3 className="text-center text-blue-400">{signal}</h3>
         <h2>Ajouter un produit</h2>
 
         <form>
           <div className="mb-4">
             <label htmlFor="productName" className="block mb-2"> Nom de produit </label>
-            <input onChange={(e)=> (e.target.value)} type="text" id="productName" className="w-full border border-slate-950"></input>
+            <input value={product?.name || ""} onChange={(e)=> (e.target.value)} type="text" id="productName" className="w-full border border-slate-950"></input>
           </div>
 
           <div className="mb-4">
             <label htmlFor="productQty" className="block mb-2"> Quantité initiale </label>
-            <input onChange={(e)=> (e.target.value)} type="number" id="productQty" className="w-full border border-slate-950"></input>
+            <input value={product?.quantity || ""} onChange={(e)=> (e.target.value)} type="number" id="productQty" className="w-full border border-slate-950"></input>
           </div>
 
           <div className="mb-4">
             <label htmlFor="productPrice" className="block mb-2"> Prix </label>
-            <input onChange={(e)=> (e.target.value)} type="number" id="productPrice" className="w-full border border-slate-950"></input>
+            <input value={product?.price || ""} onChange={(e)=> (e.target.value)} type="number" id="productPrice" className="w-full border border-slate-950"></input>
           </div>
 
           <button onClick={addProduct} type="submit" className="bg-blue-500 text-white px-4 py-2">Ajouter</button>
         </form>
-        <h2>Stock actuel</h2>
+
+          {products.map(prod => {
+            return <div key={prod.id}>
+              <p className="border px-4 py-2">{prod.name}</p>
+              <p className="border px-4 py-2">{prod.quantity}</p>
+              <p className="border px-4 py-2">{prod.price}€</p>
+            </div>
+          })}
+
       </div>
     </>
     
