@@ -11,7 +11,7 @@ export async function GET(request) {
   
         try{
             //fonction de Next qui renvoie ce qui match la query
-            //il s'agit donc de faire correpondre le params lors de l'appel de la foncion
+            //il s'agit donc de faire correpondre le params lors de l'appel de la fonction
             const database = client.db("Eriuden")
             const products = database.collection("products")
 
