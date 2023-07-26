@@ -1,11 +1,15 @@
 import { Header } from "@/components/Header";
+import loadConfig from "next/dist/server/config";
 import { useState, useEffect } from "react";
 
 
 export default function Home() {
   const [product, setProduct] = useState({})
-  const [products, setProducts] = useState({})
+  const [products, setProducts] = useState([])
   const [signal, setSignal] = useState("")
+  const [query, setQuery] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [dropdown, setDropdown] = useState([])
 
   useEffect(()=> {
     const fetchProducts = async ()=> {
@@ -41,12 +45,23 @@ export default function Home() {
     }
   }
 
+  const DropdownEdit = async(e) => {
+    setQuery(e.target.value)
+    if (!loading) {
+      setLoading(true)
+      const response = await fetch("/api/search?query=" + query)
+      let resjson = await response.json()
+      setDropdown(resjson.products)
+      setLoading(false)
+    }
+  }
+
   return (
     <>
       <Header/>
 
       <div>
-        <input type="text" placeholder="Entrez un nom de produit" 
+        <input onChange={DropdownEdit} type="text" placeholder="Entrez un nom de produit" 
         className="flex-1 border border-gray-300"/>
 
         <select className=" border border-gray-300 px-4 py-2 rounded-r-md">
@@ -55,6 +70,16 @@ export default function Home() {
           <option value="categorie2">2nde catégorie</option>
         </select>
       </div>
+
+      {dropdown.map(product=> {
+          return <div key={product.id} className="container">
+
+            <span>{product.name}</span>
+            <span>{product.price}</span>
+            <span>{product.quantity}</span>
+
+          </div>
+      })}
 
       <div className="container">
         <h3 className="text-center text-blue-400">{signal}</h3>
