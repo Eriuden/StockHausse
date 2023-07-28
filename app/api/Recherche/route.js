@@ -15,7 +15,7 @@ export async function GET(request) {
             const database = client.db("Eriuden")
             const products = database.collection("products")
 
-            const search = await inventory.aggregate([{
+            const search = await products.aggregate([{
                 $match: {
                     $or: [
                         { name: {$regex: query, $options:"i"}}         
@@ -23,7 +23,7 @@ export async function GET(request) {
                 }
             }])
             
-            return NextResponse.json({success: true, product})
+            return NextResponse.json({success: true, search})
         } finally  {
             await client.close()
         }   
