@@ -21,7 +21,7 @@ export async function GET(request) {
                         { name: {$regex: query, $options:"i"}}         
                     ]
                 }
-            }])
+            }]).toArray()
             
             return NextResponse.json({success: true, search})
         } finally  {

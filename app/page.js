@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import loadConfig from "next/dist/server/config";
 import { useState, useEffect } from "react";
+import LoadingCircle from "../public/loading.png";
 
 
 export default function Home() {
@@ -70,6 +71,8 @@ export default function Home() {
           <option value="categorie2">2nde catégorie</option>
         </select>
       </div>
+
+      {loading && <img src={loading}/> }
 
       {dropdown.map(product=> {
           return <div key={product.id} className="container">
