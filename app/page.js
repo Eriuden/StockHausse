@@ -118,11 +118,11 @@ export default function Home() {
           <button onClick={addProduct} type="submit" className="bg-blue-500 text-white px-4 py-2">Ajouter</button>
         </form>
 
-          {products.map(prod => {
-            return <div key={prod.id}>
-              <p className="border px-4 py-2">{prod.name}</p>
-              <p className="border px-4 py-2">{prod.quantity}</p>
-              <p className="border px-4 py-2">{prod.price}€</p>
+          {products.map(product => {
+            return <div key={product.id}>
+              <p className="border px-4 py-2">{product.name}</p>
+              <p className="border px-4 py-2">{product.quantity}</p>
+              <p className="border px-4 py-2">{product.price}€</p>
             </div>
           })}
 
