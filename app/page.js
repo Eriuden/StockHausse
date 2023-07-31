@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import loadConfig from "next/dist/server/config";
+import { isRouteMatch } from "next/dist/server/future/route-matches/route-match";
 import { useState, useEffect } from "react";
 import LoadingCircle from "../public/loading.png";
 
@@ -12,6 +13,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [dropdown, setDropdown] = useState([])
 
+  const buttons = document.querySelectorAll("button")
+
   useEffect(()=> {
     const fetchProducts = async ()=> {
       const response = await fetch("/api/product")
@@ -20,6 +23,15 @@ export default function Home() {
     }
     fetchProducts()
   },[])
+
+  
+  const buttonAction = async(quantity)=> {
+    if (buttons.value = "+") {
+      quantity +=1
+    } else if (buttons.value = "-") {
+      quantity -=1
+    }
+  }
 
   const addProduct = async(e)=>{
     e.preventDefault()
@@ -75,11 +87,12 @@ export default function Home() {
       {loading && <img src={loading}/> }
 
       {dropdown.map(product=> {
-          return <div key={product.id} className="container">
+          return <div key={product.id} className="container flex justify-between p-2 my-1 border-b-2">
 
-            <span>{product.name}</span>
-            <span>{product.price}</span>
-            <span>{product.quantity}</span>
+            <span>{product.name}, {product.quantity} actuellement disponibles</span>
+            <button className="button" onClick={()=>(buttonAction(product.quantity))} disabled={loading}>+</button>
+            <button className="button" onClick={()=>(buttonAction(product.quantity))} disabled={loading}>-</button>
+    
 
           </div>
       })}
