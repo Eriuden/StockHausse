@@ -22,10 +22,12 @@ export default function Home() {
 
   
   const buttonAction = async(quantity)=> {
-    if (buttons.value = "+") {
-      quantity +=1
-    } else if (buttons.value = "-") {
-      quantity -=1
+    for (i = 0; i < buttons.value ; i++) {
+      if (buttons[i].value = "+") {
+        quantity +=1
+      } else if (buttons[i].value = "-") {
+        quantity -=1
+      }
     }
   }
 
