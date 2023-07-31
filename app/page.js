@@ -1,9 +1,5 @@
 import { Header } from "@/components/Header";
-import loadConfig from "next/dist/server/config";
-import { isRouteMatch } from "next/dist/server/future/route-matches/route-match";
 import { useState, useEffect } from "react";
-import LoadingCircle from "../public/loading.png";
-
 
 export default function Home() {
   const [product, setProduct] = useState({})
