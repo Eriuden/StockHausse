@@ -57,8 +57,9 @@ export default function Home() {
   }
 
   const DropdownEdit = async(e) => {
-    setQuery(e.target.value)
-    if (!loading) {
+    let value = e.target.value
+    setQuery(value)
+    if (value.length > 3) {
       setLoading(true)
       const response = await fetch("/api/search?query=" + query)
       let resjson = await response.json()
